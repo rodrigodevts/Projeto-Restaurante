@@ -36,7 +36,9 @@ public class ClasseDAO {
     private String User = "";
     private String Senha = "";
     private PreparedStatement stm;
+    private PreparedStatement stm2;
     private ResultSet rs;
+    private ResultSet rs2;
 //    private ClasseDelivery d;
 //    private final String Conexao = "jdbc:mysql://10.190.81.160/pubmanagerdb";
 //    private final String Conexao = "jdbc:mysql://localhost/pubmanagerdb";
@@ -511,18 +513,28 @@ public class ClasseDAO {
     public boolean buscaCliente(clientes c){
         conectar();
         try{
+
             stm = con.prepareStatement("select IdClientes, nome,cpf,telefone,cidade,endereco from clientes where telefone = ? or IdClientes = ?");
             stm.setString(1, c.getTelefone());
             stm.setInt(2,c.getIdCliente());
             
+            /* Fiz essa linha para chamar o script do BD abaixo para consultar através do telefone (atributo
+              da tabela Cliente) na tabela vendaPrazo com junção do idVenda (tabela Venda).
+              Com isso só mostra as vendas a prazo realizada pelo determinado cliente, pode testar no seu bd aí*/
+            stm2 = con.prepareStatement("Select A.totalVenda from Vendas A INNER JOIN vendaPrazo B ON A.IdVenda = B.idVenda INNER JOIN Clientes C ON C.idClientes = B.idClientes WHERE telefone = ?;");
+            stm2.setString(3, c.getValorPrazo());
+            
             rs = stm.executeQuery();
-            if (rs.next()){
+            rs2 = stm2.executeQuery();
+            
+            if (rs.next() && rs2.next()){
                 c.setIdCliente(rs.getInt("IdClientes"));
                 c.setNome(rs.getString("Nome"));
                 c.setCpf(rs.getString("cpf"));
                 c.setTelefone(rs.getString("telefone"));
                 c.setCidade(rs.getString("cidade"));
                 c.setEndereco(rs.getString("endereco"));
+                c.setValorPrazo(rs.getString("valorPrazo"));
                 
                 
                 return true;
@@ -536,6 +548,30 @@ public class ClasseDAO {
         } 
         return false;
      }
+    
+    // Aqui eu fiz o script em uma função própria. Mas haverá conflito na classe frmClientes (Veja classe).
+    
+    /*public boolean consultaDebito(clientes c){
+        conectar();
+        try{
+            con.prepareStatement("Select A.totalVenda from Vendas A INNER JOIN vendaPrazo B ON A.IdVenda = B.idVenda INNER JOIN Clientes C ON C.idClientes = B.idClientes WHERE telefone = ?;");
+            stm.setString(1, c.getValorPrazo());
+            
+            rs = stm.executeQuery();
+            if(rs.next()){
+                c.setValorPrazo(rs.getString("valorPrazo"));
+                
+                return true;
+            }
+            rs.close();
+            stm.close();
+            con.close();
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        } 
+        return false;
+     }*/
     
     public void alteraFuncionario(ClasseFuncionario f){
         conectar();

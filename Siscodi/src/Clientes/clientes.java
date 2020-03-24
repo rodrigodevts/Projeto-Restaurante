@@ -20,6 +20,7 @@ public class clientes extends ClasseDAO{
     private String cpf;
     private String Nome;
     private String Cidade;
+    private String valorPrazo;
 
     public int getIdCliente() {
         return idCliente;
@@ -68,6 +69,14 @@ public class clientes extends ClasseDAO{
 
     public void setCidade(String Cidade) {
         this.Cidade = Cidade;
+    }
+    
+    public void setValorPrazo(String vPago){
+        this.valorPrazo = vPago;
+    }
+    
+    public String getValorPrazo(){
+        return valorPrazo;
     }
     
     
