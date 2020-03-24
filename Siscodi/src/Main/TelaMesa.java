@@ -38,7 +38,7 @@ public class TelaMesa extends javax.swing.JDialog {
     private FormFechaVenda frmfechar;
     private FormCupom frmCupom;
     private FormPesquisa frmPesquisa;
-    private PesquisaProduto frmPesquisa2;
+
 
     
     public DefaultTableModel getTabelaAux() {
@@ -64,7 +64,6 @@ public class TelaMesa extends javax.swing.JDialog {
     public void insereTabela(){
         if (!txtQuantidade.getText().equals("") && !txtQuantidade.getText().equalsIgnoreCase("0")) {
             int qtd = Produto.buscaQuantidade(Integer.valueOf(txtCodProduto.getText()));
-            JOptionPane.showMessageDialog(null,qtd+ "||" +Integer.valueOf(txtQuantidade.getText()) );
             if(!(qtd < Integer.valueOf(txtQuantidade.getText()))){
             if (linhas == null) {
                 linhas = new Object[5];

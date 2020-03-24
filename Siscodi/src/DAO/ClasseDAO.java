@@ -436,14 +436,13 @@ public class ClasseDAO {
             stm.setString(2, c.getEndereco().toUpperCase());
             stm.setString(3, c.getTelefone());
             stm.setString(4, c.getCpf());
-            stm.setString(4, null);
             stm.setString(5, c.getCidade().toUpperCase());
             stm.execute();
 
             stm.close();
             con.close();
-//            JOptionPane.showMessageDialog(null, "Cliente Salvo Com Sucesso","Cadastro de Clientes",
-//                    JOptionPane.INFORMATION_MESSAGE);
+         JOptionPane.showMessageDialog(null, "Cliente Salvo Com Sucesso","Cadastro de Clientes",
+                    JOptionPane.INFORMATION_MESSAGE);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -512,16 +511,20 @@ public class ClasseDAO {
     public boolean buscaCliente(clientes c){
         conectar();
         try{
-            stm = con.prepareStatement("Select * from clientes where telefone = ?");
+            stm = con.prepareStatement("select IdClientes, nome,cpf,telefone,cidade,endereco from clientes where telefone = ? or IdClientes = ?");
             stm.setString(1, c.getTelefone());
+            stm.setInt(2,c.getIdCliente());
             
             rs = stm.executeQuery();
             if (rs.next()){
                 c.setIdCliente(rs.getInt("IdClientes"));
                 c.setNome(rs.getString("Nome"));
-                c.setEndereco(rs.getString("endereco"));
-                c.setCidade(rs.getString("cidade"));
                 c.setCpf(rs.getString("cpf"));
+                c.setTelefone(rs.getString("telefone"));
+                c.setCidade(rs.getString("cidade"));
+                c.setEndereco(rs.getString("endereco"));
+                
+                
                 return true;
             }
             rs.close();
@@ -710,7 +713,27 @@ public class ClasseDAO {
          }
        
      }
-    
+    public boolean buscaClienteTabela(clientes c){
+        conectar();
+        try{
+            stm = con.prepareStatement("select IdClientes, nome,cpf,telefone,cidade,endereco from clientes where nome like ?");
+            stm.setString(1,c.getNome());
+            rs = stm.executeQuery();
+            if(rs.next()){
+                c.setIdCliente(rs.getInt("IdClientes"));
+                c.setNome(rs.getString("nome"));
+                c.setCpf(rs.getString("cpf"));
+                c.setTelefone("telefone");
+                c.setCidade("cidade");
+                c.setEndereco("endereco");
+                return true;
+            }
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Erro ao buscar: "+e);
+        }
+        return false;
+    }
 //    public boolean buscaCliente(clientes c){
 //        conectar();
 //        try{
@@ -828,11 +851,11 @@ public class ClasseDAO {
         try {
             conectar();
 
-            stm = con.prepareStatement("Insert into vendas(mesa,totalVenda,dataVenda) values (?,?,?)");
+            stm = con.prepareStatement("Insert into vendas(mesa,totalVenda,dataVenda,formaPagamento) values (?,?,?,?)");
             stm.setInt(1, cvm.getIdMesa());
             stm.setFloat(2, cvm.getTotalVenda());
             stm.setString(3, cvm.getDataVenda());
-            
+            stm.setString(4, cvm.getFormaPagamento());
             stm.executeUpdate();
             
             stm.close();
@@ -854,6 +877,23 @@ public class ClasseDAO {
             return false;
         }
         
+    }
+    public boolean cadastrarVendaAprazo(ClasseVendaMesa cvm,clientes c ){
+        try{
+            conectar();
+            
+            stm = con.prepareStatement("insert into vendaprazo(formaPagamento,idClientes,idVenda)" + 
+                                       "values(?,?,(select MAX(idVenda) from vendas))");
+            stm.setString(1,cvm.getFormaPagamento());
+            stm.setInt(2,c.getIdCliente());
+            
+            stm.executeUpdate();
+            stm.close();
+            return true;
+        }catch(Exception ex){
+            System.out.println(ex);
+            return false;
+        }
     }
     
     
