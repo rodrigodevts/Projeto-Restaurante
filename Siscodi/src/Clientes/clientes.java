@@ -14,15 +14,33 @@ import DAO.ClasseDAO;
  */
 public class clientes extends ClasseDAO{
     
-    private int idCliente;
+    private int    idCliente;
     private String endereco;
     private String telefone;
     private String cpf;
     private String Nome;
     private String Cidade;
-    private String valorPrazo;
+    private double valorPrazo;
+    private int IdVendaPrazo;
 
-    public int getIdCliente() {
+    public int getIdVendaPrazo() {
+        return IdVendaPrazo;
+    }
+
+    public void setIdVendaPrazo(int IdVendaPrazo) {
+        this.IdVendaPrazo = IdVendaPrazo;
+    }
+
+
+    public double getValorPrazo() {
+        return valorPrazo;
+    }
+
+    public void setValorPrazo(double valorPrazo) {
+        this.valorPrazo = valorPrazo;
+    }
+
+    public  int getIdCliente() {
         return idCliente;
     }
 
@@ -69,14 +87,6 @@ public class clientes extends ClasseDAO{
 
     public void setCidade(String Cidade) {
         this.Cidade = Cidade;
-    }
-    
-    public void setValorPrazo(String vPago){
-        this.valorPrazo = vPago;
-    }
-    
-    public String getValorPrazo(){
-        return valorPrazo;
     }
     
     
