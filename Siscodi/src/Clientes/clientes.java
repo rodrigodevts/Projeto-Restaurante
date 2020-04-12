@@ -22,6 +22,7 @@ public class clientes extends ClasseDAO{
     private String Cidade;
     private double valorPrazo;
     private int IdVendaPrazo;
+    private String quitado;
 
     public int getIdVendaPrazo() {
         return IdVendaPrazo;
@@ -87,6 +88,13 @@ public class clientes extends ClasseDAO{
 
     public void setCidade(String Cidade) {
         this.Cidade = Cidade;
+    }
+    
+    public void setQuitado(String Quitado){
+         this.quitado = Quitado;
+    }
+    public String getQuitado (){
+        return quitado;
     }
     
     

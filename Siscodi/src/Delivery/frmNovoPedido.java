@@ -6,7 +6,7 @@
 package Delivery;
 
 import Clientes.clientes;
-import Clientes.frmClientes;
+import Clientes.FormClientes;
 import Produtos.ClasseProduto;
 import java.awt.Dialog;
 import java.awt.Insets;
@@ -52,7 +52,7 @@ public class frmNovoPedido extends javax.swing.JFrame {
     private clientes c = new clientes();
     private final DecimalFormat decimal = new DecimalFormat("0.00");
     private final DateFormat DATA = new SimpleDateFormat("yyyy-MM-dd");
-    private frmClientes formCli;
+    private FormClientes formCli;
     private Date data;
     int idcliente;
 
@@ -932,7 +932,7 @@ public class frmNovoPedido extends javax.swing.JFrame {
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         if (formCli == null){
-            formCli = new frmClientes();
+            formCli = new FormClientes();
         }
         formCli.setModal(true);
         formCli.setVisible(true);

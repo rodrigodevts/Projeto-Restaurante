@@ -5,7 +5,7 @@
  */
 package Main;
 
-import Clientes.frmClientes;
+import Clientes.FormClientes;
 import DAO.ClasseDAO;
 import Delivery.frmDeliveryInicio;
 import Funcionario.FormFuncionario;
@@ -56,7 +56,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private VendasFull frVendasF;
     private FormFuncionario frmFunc;
     private frmDeliveryInicio frmInicio;
-    private frmClientes frmCli;
+    private FormClientes frmCli;
     private static final DateFormat HORA = new SimpleDateFormat("HH:mm:ss");
     private static final DateFormat DATA = new SimpleDateFormat("dd/MM/yyyy");
     private final DecimalFormat decimal = new DecimalFormat("0.00");
@@ -69,6 +69,10 @@ public class FormPrincipal extends javax.swing.JFrame {
          mnFuncionarios.setEnabled(false);
          jMenu2.setEnabled(false);
          jMenu1.setEnabled(false);
+        if(lbNomeUsuario.getText().equals("Colaborador")){
+        jButton4.setEnabled(false);
+        btnClientes.setEnabled(false);
+        }
     }
     public void organizaMesas() {
         //Limpa o painel
@@ -231,6 +235,89 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         } catch (JRException exc) {
             exc.printStackTrace();
+        }
+    }
+    public void abrirRelatorioVendasPrazoPorDataNaoQuitadas() {
+        InputStream inputStream = getClass().getResourceAsStream("/VendasPrazoPorData.jasper");
+
+        // mapa de parâmetros do relatório (ainda vamos aprender a usar)
+        Map parametros = new HashMap();
+
+        String res = JOptionPane.showInputDialog(null,
+                "Digite a data (dd/mm/aaaa):", "Relação de vendas", JOptionPane.PLAIN_MESSAGE);
+
+        String dia, mes, ano;
+        try{
+        dia = res.substring(0, res.indexOf('/'));
+        mes = res.substring(res.indexOf('/')+1, res.lastIndexOf('/'));
+        ano = res.substring(res.lastIndexOf('/')+1, res.length());
+        
+         res = ano+'-'+mes+'-'+dia;
+        }catch(Exception e){
+            //JOptionPane.showMessageDialog(rootPane, "Informe a data corretamente!");
+        }
+        
+       
+        
+        parametros.put("primeiraCategoria", res);
+        System.out.println(res);
+        try {
+
+            // abre o relatório
+            ReportUtils.openReport("VendasPorData", inputStream, parametros,
+                    ConnectionFactory.getPubManagerConnection());
+
+        } catch (JRException exc) {
+            exc.printStackTrace();
+        }
+    }
+    public void abrirRelatorioVendasPrazoPorDataQuitadas() {
+        InputStream inputStream = getClass().getResourceAsStream("/VendasPrazoQuitados.jasper");
+
+        // mapa de parâmetros do relatório (ainda vamos aprender a usar)
+        Map parametros = new HashMap();
+
+        String res = JOptionPane.showInputDialog(null,
+                "Digite a data (dd/mm/aaaa):", "Relação de vendas", JOptionPane.PLAIN_MESSAGE);
+
+        String dia, mes, ano;
+        try{
+        dia = res.substring(0, res.indexOf('/'));
+        mes = res.substring(res.indexOf('/')+1, res.lastIndexOf('/'));
+        ano = res.substring(res.lastIndexOf('/')+1, res.length());
+        
+         res = ano+'-'+mes+'-'+dia;
+        }catch(Exception e){
+            //JOptionPane.showMessageDialog(rootPane, "Informe a data corretamente!");
+        }
+        
+       
+        
+        parametros.put("primeiraCategoria", res);
+        System.out.println(res);
+        try {
+
+            // abre o relatório
+            ReportUtils.openReport("VendasPorData", inputStream, parametros,
+                    ConnectionFactory.getPubManagerConnection());
+
+        } catch (JRException exc) {
+            exc.printStackTrace();
+        }
+    }
+    public void abrirRelatorioVendasPrazoTodas() {
+        InputStream inputStream = getClass().getResourceAsStream("/VendasPrazoTodas.jasper");
+
+        // mapa de parâmetros do relatório (ainda vamos aprender a usar)
+        Map parametros = new HashMap();
+
+        try {
+            // abre o relatório
+            ReportUtils.openReport("VendasPrazoTodas", inputStream, parametros,
+                    ConnectionFactory.getPubManagerConnection());
+        } catch (JRException exc) {
+            exc.printStackTrace();
+            System.out.print(exc);
         }
     }
     
@@ -439,6 +526,10 @@ public class FormPrincipal extends javax.swing.JFrame {
         mnVendaTodas = new javax.swing.JMenuItem();
         mnVendaData = new javax.swing.JMenuItem();
         mnVendaID = new javax.swing.JMenuItem();
+        mnVendasPrazo = new javax.swing.JMenu();
+        mnVendasNaoQuitadas = new javax.swing.JMenuItem();
+        mnVendasQuitadas = new javax.swing.JMenuItem();
+        mnTodasVendasPrazo = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
 
@@ -818,6 +909,34 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         jMenu2.add(mnRelVendas);
 
+        mnVendasPrazo.setText("VENDAS A PRAZO");
+
+        mnVendasNaoQuitadas.setText("VENDAS NÃO QUITADAS");
+        mnVendasNaoQuitadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnVendasNaoQuitadasActionPerformed(evt);
+            }
+        });
+        mnVendasPrazo.add(mnVendasNaoQuitadas);
+
+        mnVendasQuitadas.setText("VENDAS QUITADAS");
+        mnVendasQuitadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnVendasQuitadasActionPerformed(evt);
+            }
+        });
+        mnVendasPrazo.add(mnVendasQuitadas);
+
+        mnTodasVendasPrazo.setText("TODAS AS VENDAS A PRAZO");
+        mnTodasVendasPrazo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnTodasVendasPrazoActionPerformed(evt);
+            }
+        });
+        mnVendasPrazo.add(mnTodasVendasPrazo);
+
+        jMenu2.add(mnVendasPrazo);
+
         mnBarra.add(jMenu2);
 
         jMenu4.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
@@ -924,7 +1043,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
 
         if (frmCli == null) {
-            frmCli = new frmClientes();
+            frmCli = new FormClientes();
         }
         frmCli.setModal(true);
         frmCli.setVisible(true);
@@ -999,7 +1118,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private void mnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnClientesActionPerformed
 
         if (frmCli == null) {
-            frmCli = new frmClientes();
+            frmCli = new FormClientes();
         }        
             frmCli.setModal(true);
             frmCli.setVisible(true);
@@ -1045,6 +1164,18 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         
     }//GEN-LAST:event_mnRelProdutosActionPerformed
+
+    private void mnVendasQuitadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnVendasQuitadasActionPerformed
+       abrirRelatorioVendasPrazoPorDataQuitadas();
+    }//GEN-LAST:event_mnVendasQuitadasActionPerformed
+
+    private void mnVendasNaoQuitadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnVendasNaoQuitadasActionPerformed
+        abrirRelatorioVendasPrazoPorDataNaoQuitadas();
+    }//GEN-LAST:event_mnVendasNaoQuitadasActionPerformed
+
+    private void mnTodasVendasPrazoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnTodasVendasPrazoActionPerformed
+        abrirRelatorioVendasPrazoTodas();
+    }//GEN-LAST:event_mnTodasVendasPrazoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1123,9 +1254,13 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu mnRelProdutos;
     private javax.swing.JMenuItem mnRelProdutosTodos;
     private javax.swing.JMenu mnRelVendas;
+    private javax.swing.JMenuItem mnTodasVendasPrazo;
     private javax.swing.JMenuItem mnVendaData;
     private javax.swing.JMenuItem mnVendaID;
     private javax.swing.JMenuItem mnVendaTodas;
+    private javax.swing.JMenuItem mnVendasNaoQuitadas;
+    private javax.swing.JMenu mnVendasPrazo;
+    private javax.swing.JMenuItem mnVendasQuitadas;
     private javax.swing.JPanel pnMesas;
     private javax.swing.JPanel pnOpcoes;
     private javax.swing.JMenuItem rlPedido;

@@ -36,7 +36,9 @@ public class FormFechaVenda extends javax.swing.JDialog {
     private ClasseVendaMesa vendaMesa;
     private DefaultTableModel itensMesa;
     private TelaMesa telaPai;
-    private clientes tbClientes = new clientes();
+    public clientes tbClientes = new clientes();
+    private FormPesquisaCliente pCliente;
+    
    
 
     public void setTelaPai(TelaMesa telaPai) {
@@ -544,11 +546,15 @@ public class FormFechaVenda extends javax.swing.JDialog {
             if (Float.valueOf(txtValorRecebido.getText()) >= Float.valueOf(txtValorPagar.getText())) {
                 preencheClasse();
                 if (vendaMesa.cadastraVenda(vendaMesa)) {
-                    if(!jTNomeCliente.getText().equals("Cliente nao localizado!")){
+                   if(!jTNomeCliente.getText().equals("Cliente nao localizado!")){
+                        if(tbClientes.getIdCliente() !=0){
                        vendaMesa.cadastrarVendaAprazo(vendaMesa, tbClientes);
-                    }else{
+                        }
+                        /*else{
                         JOptionPane.showMessageDialog(this, "Informe o cliente",
                             "PubManager.Soft", JOptionPane.INFORMATION_MESSAGE);
+                        }*/
+       
                     }
                     JOptionPane.showMessageDialog(this, "Venda Efetuada com Sucesso",
                             "PubManager.Soft", JOptionPane.INFORMATION_MESSAGE);
@@ -573,19 +579,24 @@ public class FormFechaVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_cmbFormaPagamentoActionPerformed
 
     private void btPesquisaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisaClienteActionPerformed
-        PesquisaCliente pCliente = new PesquisaCliente(null, true);
+        if(pCliente == null){
+            pCliente = new FormPesquisaCliente(null, true);
+        }
         pCliente.setAlwaysOnTop(true);
         pCliente.setVisible(true);
-        int id = tbClientes.buscaIdAuxiliar();
+        int id = pCliente.tbClientes.getIdCliente();
         tbClientes.setIdCliente(id);
-        if(tbClientes.buscaCliente(tbClientes)){
+        if(tbClientes.buscaClienteVenda(tbClientes)){
             jTNomeCliente.setText(tbClientes.getNome());
         }else{
             jTNomeCliente.setText("Cliente nao localizado!");
         }
-        tbClientes.apagarIdAuxiliar();
+       
     }//GEN-LAST:event_btPesquisaClienteActionPerformed
 
+    public void selecionarId(int id){
+        tbClientes.setIdCliente(id);                   
+    }
     private void cmbFormaPagamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbFormaPagamentoMouseClicked
 
         cmbFormaPagamento.addActionListener( new ActionListener() {
@@ -596,6 +607,7 @@ public class FormFechaVenda extends javax.swing.JDialog {
                 }else{
                     btPesquisaCliente.setEnabled(false);
                     jTNomeCliente.setEnabled(false);
+                    jTNomeCliente.setText("");
                 }               
             }
         });  

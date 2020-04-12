@@ -7,7 +7,7 @@
 package Delivery;
 
 import Clientes.clientes;
-import Clientes.frmClientes;
+import Clientes.FormClientes;
 import DAO.ClasseDAO;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -49,7 +49,7 @@ public class frmDeliveryInicio extends javax.swing.JFrame {
     private ResultSet rs;
     private Connection con;
     private FormCupomDelivery cupomDelivery;
-    private frmClientes frmCli;
+    private FormClientes frmCli;
     private ClasseDelivery d;
     private frmNovoPedido frmPedido;
     private final DateFormat DATA = new SimpleDateFormat("yyyy-MM-dd");
@@ -571,7 +571,7 @@ public class frmDeliveryInicio extends javax.swing.JFrame {
     private void btAddUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddUserActionPerformed
 
         if (frmCli == null){
-            frmCli = new frmClientes();
+            frmCli = new FormClientes();
         }
 //        this.setEnabled(false);
         frmCli.setVisible(true);

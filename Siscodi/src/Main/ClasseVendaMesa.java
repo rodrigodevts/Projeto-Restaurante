@@ -18,7 +18,7 @@ public class ClasseVendaMesa extends ClasseDAO {
     private float TotalVenda;
     private String dataVenda;
     private String formaPagamento;
-
+  
     public String getFormaPagamento() {
         return formaPagamento;
     }
@@ -60,8 +60,7 @@ public class ClasseVendaMesa extends ClasseDAO {
     public void setItensMesa(DefaultTableModel itensMesa) {
         this.itensMesa = itensMesa;
     }
-    
-    
+
     
     
     

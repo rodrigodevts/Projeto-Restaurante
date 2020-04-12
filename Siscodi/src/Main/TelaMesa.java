@@ -575,7 +575,7 @@ public class TelaMesa extends javax.swing.JDialog {
         txtCodProduto.setText("");
         txtDescricao.setText("");
         txtValor.setText("");
-        PesquisaProduto2 PP = new PesquisaProduto2(null,true);
+        FormPesquisaProduto PP = new FormPesquisaProduto(null,true);
         PP.setAlwaysOnTop(true);
         PP.setVisible(true);
         int id;

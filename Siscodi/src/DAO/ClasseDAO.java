@@ -534,6 +534,31 @@ public class ClasseDAO {
         } 
         return false;
      }
+    public boolean buscaClienteVenda(clientes c){
+        conectar();
+        try{
+            stm = con.prepareStatement("Select * from clientes where idClientes = ?");    
+            stm.setInt(1, c.getIdCliente());
+            
+            rs = stm.executeQuery();
+            if (rs.next()){
+                c.setIdCliente(rs.getInt("IdClientes"));
+                c.setNome(rs.getString("Nome"));
+                c.setEndereco(rs.getString("endereco"));
+                c.setCidade(rs.getString("cidade"));
+                c.setCpf(rs.getString("cpf"));
+                c.setTelefone(rs.getString("Telefone"));
+                return true;
+            }
+            rs.close();
+            stm.close();
+            con.close();
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        } 
+        return false;
+     }
     public boolean consultaDebito(clientes c){
         conectar();
         try{
@@ -555,6 +580,19 @@ public class ClasseDAO {
             JOptionPane.showMessageDialog(null, e);
         }
         return false;
+    }
+    public void liquidaDebito(clientes c){
+        conectar();
+        try{
+            stm = con.prepareStatement("UPDATE vendaPrazo "+"set QUITADO = 'SIM' "+ "where idVendaPrazo = ?");
+            stm.setInt(1, c.getIdVendaPrazo());
+            
+            stm.execute();
+            stm.close();
+            con.close();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     // Aqui eu fiz o script em uma função própria. Mas haverá conflito na classe frmClientes (Veja classe).
     
@@ -759,16 +797,18 @@ public class ClasseDAO {
     public boolean buscaClienteTabela(clientes c){
         conectar();
         try{
-            stm = con.prepareStatement("select IdClientes, nome,cpf,telefone,cidade,endereco from clientes where nome like ?");
+            stm = con.prepareStatement("select IdClientes, nome,cpf,telefone,cidade,endereco from clientes where nome like ? or cpf like ?  or IdClientes = ?");
             stm.setString(1,c.getNome());
+            stm.setString(2,c.getCpf());
+            stm.setInt(3,c.getIdCliente());
             rs = stm.executeQuery();
             if(rs.next()){
                 c.setIdCliente(rs.getInt("IdClientes"));
                 c.setNome(rs.getString("nome"));
                 c.setCpf(rs.getString("cpf"));
-                c.setTelefone("telefone");
-                c.setCidade("cidade");
-                c.setEndereco("endereco");
+                c.setTelefone(rs.getString("telefone"));
+                c.setCidade(rs.getString("cidade"));
+                c.setEndereco(rs.getString("endereco"));
                 return true;
             }
             
