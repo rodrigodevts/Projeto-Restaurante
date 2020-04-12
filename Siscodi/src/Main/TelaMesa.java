@@ -32,13 +32,12 @@ public class TelaMesa extends javax.swing.JDialog {
     private pnMesaPadrao objMesa;
     private Object linhas[];
     private DefaultTableModel tabelaAux;
-    private ClasseProduto Produto =  new ClasseProduto();
+    public ClasseProduto Produto =  new ClasseProduto();
     private final String numeros = "0123456789";
     private final DecimalFormat decimal = new DecimalFormat("0.00");
     private FormFechaVenda frmfechar;
     private FormCupom frmCupom;
-    private FormPesquisa frmPesquisa;
-
+    private FormPesquisaProduto frmPP;
 
     
     public DefaultTableModel getTabelaAux() {
@@ -575,11 +574,13 @@ public class TelaMesa extends javax.swing.JDialog {
         txtCodProduto.setText("");
         txtDescricao.setText("");
         txtValor.setText("");
-        FormPesquisaProduto PP = new FormPesquisaProduto(null,true);
-        PP.setAlwaysOnTop(true);
-        PP.setVisible(true);
+        if(frmPP == null){
+            frmPP = new FormPesquisaProduto(null, true);
+        }
+        frmPP.setAlwaysOnTop(true);
+        frmPP.setVisible(true);
         int id;
-        id = Produto.buscaIdAuxiliar();
+        id = frmPP.ClassP.getIdProduto();
         Produto.setIdProduto(id);
          if (Produto.buscaProduto(Produto)) {                 
                     txtQuantidade.setEnabled(true);
@@ -593,7 +594,6 @@ public class TelaMesa extends javax.swing.JDialog {
                     txtQuantidade.setEnabled(false);
                     btInserir.setEnabled(false);
                 }
-         Produto.apagarIdAuxiliar();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtCodProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodProdutoActionPerformed

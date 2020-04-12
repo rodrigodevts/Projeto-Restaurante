@@ -29,7 +29,7 @@ public class FormPesquisaProduto extends javax.swing.JDialog {
         this.setResizable(false); 
         preenche("SELECT IdProdutos,descricao,categoria,preco,marca,Quantidade FROM produtos");
     }
-    private ClasseProduto ClassP = new ClasseProduto();;
+    public ClasseProduto ClassP = new ClasseProduto();;
     private TelaMesa frmMesa;
  
     /**
@@ -175,7 +175,6 @@ public class FormPesquisaProduto extends javax.swing.JDialog {
 
         int id = (int)tblPesquisaProduto.getModel().getValueAt(tblPesquisaProduto.getSelectedRow(), 0);
         ClassP.setIdProduto(id);
-        ClassP.insereIdAuxiliar(id);
         this.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 

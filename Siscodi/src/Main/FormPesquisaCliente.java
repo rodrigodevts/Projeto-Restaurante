@@ -146,9 +146,6 @@ public class FormPesquisaCliente extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int id = (int) jTClientes.getModel().getValueAt(jTClientes.getSelectedRow(), 0); 
-        if(frmFv == null){
-            frmFv = new FormFechaVenda();
-        }
         tbClientes.setIdCliente(id);
         this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed

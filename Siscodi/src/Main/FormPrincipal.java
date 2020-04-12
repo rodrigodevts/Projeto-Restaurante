@@ -53,7 +53,6 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private pnMesaPadrao[][] mesa;
     private FormProduto frmProd;
-    private VendasFull frVendasF;
     private FormFuncionario frmFunc;
     private frmDeliveryInicio frmInicio;
     private FormClientes frmCli;
@@ -1024,11 +1023,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_mnFuncionariosActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // AÇÃO BOTÃO VENDAS
-       if(frVendasF == null){
-            frVendasF = new VendasFull(); 
-        } 
-            frVendasF.setVisible(true);
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

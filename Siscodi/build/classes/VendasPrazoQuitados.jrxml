@@ -67,7 +67,7 @@ where vp.QUITADO = 'SIM' AND v.dataVenda  LIKE $P{primeiraCategoria}]]>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Vendas não quitadas!]]></text>
+				<text><![CDATA[Vendas quitadas!]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
